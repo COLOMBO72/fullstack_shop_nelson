@@ -6,18 +6,28 @@ import { Link, useNavigate } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import { observer } from 'mobx-react-lite';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Context } from '..';
 
 const NavigtaionBar = observer(() => {
   const { user } = useContext(Context);
   const navigate = useNavigate();
+  const LogOut = () => {
+    if (user.user) {
+      user.setUser({});
+      user.setIsAuth(false);
+      localStorage.clear();
+      navigate('/login');
+    } else {
+      return;
+    }
+  };
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
         <Link style={{ color: 'black', textDecoration: 'none', textTransform: 'uppercase' }} to="/">
           Nelson
         </Link>
+        {user.isAuth ? <h2>{user.user.email}</h2> : ''}
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           {user.isAuth ? (
@@ -25,7 +35,7 @@ const NavigtaionBar = observer(() => {
               <Button variant="outline-info" onClick={() => navigate('/admin')}>
                 Admin Panel
               </Button>
-              <Button variant="outline-primary" className="ml-4" onClick={() => navigate('/login')}>
+              <Button onClick={() => LogOut()} variant="outline-primary" className="ml-4">
                 Log out
               </Button>
             </Nav>

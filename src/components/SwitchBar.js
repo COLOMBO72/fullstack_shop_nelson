@@ -18,14 +18,14 @@ const SwitchBar = observer(() => {
         </ListGroup.Item>
       ))}
       <div className="mt-2">
-        {product.clothes.map((clothe) => (
+        {product.clothes.map((cloth) => (
           <ListGroup.Item
             style={{ cursor: 'pointer' }}
-            onClick={() => product.setSelectedClothes(clothe)}
-            key={clothe.id}
-            active={clothe.id === product.selectedClothes.id}
+            onClick={() => product.setSelectedCloth(cloth)}
+            key={cloth.id}
+            active={cloth.id === product.selectedClothes.id}
           >
-            {clothe.name}
+            {cloth.name}
           </ListGroup.Item>
         ))}
       </div>

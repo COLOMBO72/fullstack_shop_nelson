@@ -1,68 +1,16 @@
 import { makeAutoObservable } from 'mobx';
 export default class ProductStore {
   constructor() {
-    this._types = [
-      { id: 1, name: 'Мужчинам' },
-      { id: 2, name: 'Девушкам' },
-      { id: 3, name: 'Детям' },
-    ];
-    this._clothes = [
-      { id: 1, name: 'Верхняя одежда' },
-      { id: 2, name: 'Майки' },
-      { id: 3, name: 'Кофты' },
-      { id: 4, name: 'Рубашки' },
-      { id: 5, name: 'Шорты' },
-      { id: 6, name: 'Джинсы' },
-      { id: 7, name: 'Брюки' },
-      { id: 8, name: 'Платья' },
-      { id: 9, name: 'Нижнее бельё' },
-    ];
-    this._brands = [
-      { id: 1, name: 'Prada' },
-      { id: 2, name: 'Nike' },
-      { id: 3, name: 'Louis Vuitton' },
-      { id: 4, name: 'Nelson' },
-    ];
-    this._products = [
-      {
-        id: 1,
-        name: 'Prada bag',
-        price: 293000,
-        rating: 10,
-        img: 'https://image.goxip.com/bW9Eb1VEio-ulsuvCSm0YRmUxmo=/fit-in/500x500/filters:format(jpg):quality(80):fill(white)/https:%2F%2Fimages.stockx.com%2F%2Fimages%2FPrada-Re-Edition-Shoulder-Bag-Mini-Nylon-Black.jpg',
-      },
-      {
-        id: 2,
-        name: 'Prada bag',
-        price: 293000,
-        rating: 10,
-        img: 'https://image.goxip.com/bW9Eb1VEio-ulsuvCSm0YRmUxmo=/fit-in/500x500/filters:format(jpg):quality(80):fill(white)/https:%2F%2Fimages.stockx.com%2F%2Fimages%2FPrada-Re-Edition-Shoulder-Bag-Mini-Nylon-Black.jpg',
-      },
-      {
-        id: 3,
-        name: 'Prada bag',
-        price: 293000,
-        rating: 10,
-        img: 'https://image.goxip.com/bW9Eb1VEio-ulsuvCSm0YRmUxmo=/fit-in/500x500/filters:format(jpg):quality(80):fill(white)/https:%2F%2Fimages.stockx.com%2F%2Fimages%2FPrada-Re-Edition-Shoulder-Bag-Mini-Nylon-Black.jpg',
-      },
-      {
-        id: 4,
-        name: 'Prada bag',
-        price: 293000,
-        rating: 10,
-        img: 'https://image.goxip.com/bW9Eb1VEio-ulsuvCSm0YRmUxmo=/fit-in/500x500/filters:format(jpg):quality(80):fill(white)/https:%2F%2Fimages.stockx.com%2F%2Fimages%2FPrada-Re-Edition-Shoulder-Bag-Mini-Nylon-Black.jpg',
-      },
-      {
-        id: 5,
-        name: 'Prada bag',
-        price: 293000,
-        rating: 10,
-        img: 'https://image.goxip.com/bW9Eb1VEio-ulsuvCSm0YRmUxmo=/fit-in/500x500/filters:format(jpg):quality(80):fill(white)/https:%2F%2Fimages.stockx.com%2F%2Fimages%2FPrada-Re-Edition-Shoulder-Bag-Mini-Nylon-Black.jpg',
-      },
-    ];
+    this._types = [];
+    this._clothes = [];
+    this._brands = [];
+    this._products = [];
     this._selectedType = {};
     this._selectedBrand = {};
     this._selectedClothes = {};
+    this._page = 1;
+    this._totalCount = 0;
+    this._limit = 5;
     makeAutoObservable(this);
   }
   setTypes(types) {
@@ -78,13 +26,25 @@ export default class ProductStore {
     this._products = products;
   }
   setSelectedType(type) {
+    this.setPage(1);
     this._selectedType = type;
   }
   setSelectedBrand(brand) {
+    this.setPage(1);
     this._selectedBrand = brand;
   }
-  setSelectedClothes(clothe) {
-    this._selectedClothes = clothe;
+  setSelectedCloth(cloth) {
+    this.setPage(1);
+    this._selectedClothes = cloth;
+  }
+  setTotalCount(count) {
+    this._totalCount = count;
+  }
+  setPage(page) {
+    this._page = page;
+  }
+  setLimit(limit) {
+    this._limit = limit;
   }
 
   get types() {
@@ -98,6 +58,15 @@ export default class ProductStore {
   }
   get clothes() {
     return this._clothes;
+  }
+  get page() {
+    return this._page;
+  }
+  get totalCount() {
+    return this._totalCount;
+  }
+  get limit() {
+    return this._limit;
   }
 
   get selectedType() {

@@ -1,25 +1,20 @@
 import React from 'react';
 import { Container, Image, Col, Row, Card, Button } from 'react-bootstrap';
 import star from '../assets/BigStar.png';
+import { useParams } from 'react-router-dom';
+import { fetchOneProduct } from '../api/productAPI';
 
 const ProductPage = () => {
-  const product = {
-    id: 1,
-    name: 'Prada bag',
-    price: 293000,
-    rating: 10,
-    img: 'https://image.goxip.com/bW9Eb1VEio-ulsuvCSm0YRmUxmo=/fit-in/500x500/filters:format(jpg):quality(80):fill(white)/https:%2F%2Fimages.stockx.com%2F%2Fimages%2FPrada-Re-Edition-Shoulder-Bag-Mini-Nylon-Black.jpg',
-  };
-  const description = [
-    { id: 1, title: 'Color', descr: 'black' },
-    { id: 2, title: 'Size', descr: 'Little' },
-    { id: 3, title: 'Material', descr: 'Crocodile leather' },
-  ];
+  const { id } = useParams();
+  const [product, setProduct] = React.useState({ info: [] });
+  React.useEffect(() => {
+    fetchOneProduct(id).then((data) => setProduct(data));
+  }, []);
   return (
     <Container className="mt-3">
       <Row>
         <Col md={4}>
-          <Image width={300} height={300} src={product.img} />
+          <Image width={300} height={300} src={process.env.REACT_APP_API_URL + product.img} />
         </Col>
         <Col md={4}>
           <Row className="d-flex flex-column align-items-center">
@@ -50,7 +45,7 @@ const ProductPage = () => {
       </Row>
       <Row className="d-flex flex-column m-3">
         <h1>Options</h1>
-        {description.map((d, i) => (
+        {product.info.map((d, i) => (
           <Row
             key={d.id}
             style={{ background: i % 2 === 0 ? 'lightgray' : 'transparent', padding: 10 }}

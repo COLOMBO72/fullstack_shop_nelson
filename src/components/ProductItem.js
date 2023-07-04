@@ -5,13 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 const ProductItem = ({ product }) => {
   const navigate = useNavigate();
-  const { name, rating, img,id } = product;
+  const { name, rating, img,id,brandId } = product;
   return (
     <Col md={2} className={'m-3'} onClick={() => navigate(`product/${id}`)}>
       <Card style={{ width: 150, cursor: 'pointer' }} border="blue">
-        <Image src={img} width={150} height={150} />
+        <Image src={process.env.REACT_APP_API_URL + product.img} width={150} height={150} />
         <div className="mt-2 d-flex justify-content-between align-items-center">
-          <span className="text-black-50">PRADA</span>
           <div className="d-flex align-items-center">
             <Image src={star} width={17} height={17} />
             {rating}
